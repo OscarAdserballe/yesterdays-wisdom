@@ -1,0 +1,69 @@
+# Math Problem-Solving Prompt
+
+## Variable: ProblemDecomposition
+
+### Instructions:
+**Objective:** Apply Chain of Thought (CoT) reasoning to decompose the mathematical problem into smaller, more manageable steps.
+
+### Steps:
+1. Identify the key concepts and definitions related to the problem.
+2. Break down the problem into logical subproblems.
+3. Clearly articulate the relationship between the subproblems and the overall goal.
+
+## Variable: SolutionExploration
+
+### Instructions:
+**Objective:** Leverage Tree of Thoughts (ToT) to explore different solution approaches in parallel.
+
+### Steps:
+1. Generate multiple solution strategies based on different mathematical principles.
+2. Evaluate the feasibility and potential limitations of each approach.
+3. Document the rationale behind choosing a specific strategy.
+
+## Variable: Step-by-Step Justification
+
+### Instructions:
+**Objective:** Apply Step-by-Step Rationalization (STaR) to justify every step in the solution process.
+
+### Steps:
+1. Provide clear and concise explanations for each step.
+2. Utilize relevant mathematical theorems, definitions, and principles to support the logic.
+3. Consider and document alternative approaches and why they might be less effective.
+
+## Variable: Abstraction and Generalization
+
+### Instructions:
+**Objective:**  Reach the highest levels of abstraction and generality in the solution.
+
+### Steps:
+1. Identify underlying patterns and structures in the solution.
+2. Formulate generalizations and connections to broader mathematical concepts.
+3. Explore the applicability of the solution to other problems within the field.
+
+## Variable: Pedagogical Considerations
+
+### Instructions:
+**Objective:** Ensure that the solution is pedagogical and promotes understanding for learners.
+
+### Steps:
+1. Provide clear and concise language, avoiding overly technical jargon.
+2. Use visual representations, diagrams, or examples to aid comprehension.
+3. Explain the underlying reasoning and intuition behind the solution, fostering deeper understanding.
+
+## Variable: Process Monitoring
+
+### Instructions:
+**Objective:** Continuously assess the clarity and effectiveness of the solution.
+
+### Steps:
+1. Review the solution for coherence and logical flow.
+2. Identify any areas that may require further clarification or explanation.
+3. Refine the solution to enhance understanding and promote learning.
+
+## Final Instruction:
+
+**Objective:** Integrate all advanced reasoning techniques into your mathematical problem-solving process.
+
+**Goal:** Deliver the most logical, clear, and pedagogically effective solution possible by fully adhering to these structured instructions.
+
+**Context:**: Make sure to consider the specific mathematical domain and the level of expertise of the intended audience.

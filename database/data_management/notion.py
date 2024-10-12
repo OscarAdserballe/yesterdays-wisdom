@@ -1,10 +1,12 @@
 import requests
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 from objects import Page
 import json
 from llm import LLM
+from dotenv import load_dotenv
+import os
 
-INTEGRATION_TOKEN = 'secret_QTLcb31ulTSLdxD12FgmmT1399yxB6YFcO78WEO1zNm'
+INTEGRATION_TOKEN = os.getenv('INTEGRATION_TOKEN')
 
 HEADERS = {
     "Authorization": "Bearer " + INTEGRATION_TOKEN,
@@ -97,40 +99,69 @@ def extract_pages(database: list[dict]) -> list[Page]:
 
     return pages
 
-def generate_questions(page: Page) -> Optional[Page]:
-    flash = LLM("gemini-1.5-flash")
-    if page.text != "":
-        query = f"""
-        Write 5 questions that try to capture the key themes in the following notes - cover the whole text!
-         Try to capture through these questions the most abstract and general themes of the notes. The goal is to induce the recollection of the student. But ensure that they are not unanswerable either, of course.
+class NotionPage:
+    def __init__(self, page_data:Dict):
+        self.id = page_data.get("id")
+        self.created_time = page_data.get("created_time")
+        self.last_edited_time = page_data.get("last_edited_time")
+        self.created_by = page_data.get("created_by", {}).get("id")
+        self.url = page_data.get("url")
+        self.public_url = page_data.get("public_url")
+        
+        self.properties = page_data.get("properties", {})
 
-        Also provide brief answers to each of the preceding questions.
-        Please provide the response in JSON format of the following form:
-        '
-        {{
-          '1. Some question' : '... some answer to first question',
-          ...
-          '5. Some fifth question' : '... some answer to fifth question'
-        }}
-        '
-        {page.text}
-        """
-        output = flash.call_llm(query)
-        page.set_questions(response_to_json(output))
-        return page
-    else:
-        raise AttributeError("The page text is empty")
+        try: self.title = self.properties.get('Name').get('title')[0].get('text').get('content')
+        except: self.title = ''
+        
+        try: self.type = self.properties.get('Type').get('select').get('name')
+        except: self.type = ''
 
+        try: self.in_class = self.properties.get('Class').get('multi_select')[0].get('name')
+        except: self.in_class = ""
+        
+        self.text = ""
+        self.questions = ""
 
-def process_llm_output(llm_output):
-    try:
-        return str(llm_output.candidates[0].content.parts[0])
-    except (AttributeError, IndexError) as e:
-        print("Error accessing text content:", e)
-        return None
+    def __repr__(self):
+        return f"Page(id={self.id}) (title={self.title}) (type={self.type})"
 
-def response_to_json(model_response_text: str) -> dict:
-    escaped_json_str = process_llm_output(model_response_text)[16:-7]
-    unescaped_str = bytes(escaped_json_str, "utf-8").decode("unicode_escape")
-    json_obj = json.loads(unescaped_str)
-    return json_obj
+    def set_text(self, text:str):
+        self.text = text
+
+    def set_questions(self, questions:str):
+        self.questions = questions
+
+def extract_pages(database:list[Dict]) -> list[NotionPage]:
+    pages = []
+
+    for page_data in database:
+        try: 
+            page = NotionPage(page_data)
+            pages.append(page)
+        except AttributeError:
+            print(page_data)
+            continue
+
+    return pages
+
+class Note:
+    def __init__(self, path:str,
+                 file_name:str, class_name:str):
+        self.file_name = file_name
+        self.path = path
+        self.class_name = class_name
+        self.topic = None
+        self.content = None
+
+class Topic:
+    def __init__(self,
+                 topic_name:str,
+                 pages: List[str],
+                 description: str,
+                 ):
+        self.topic_name = topic_name
+        self.pages = pages
+        self.description = description
+
+        self.keywords = []
+        self.transcription = None

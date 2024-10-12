@@ -1,6 +1,0 @@
-google_api_python_client==2.137.0
-google_auth_oauthlib==1.2.1
-google_cloud_aiplatform==1.60.0
-protobuf==4.21.12
-requests==2.32.3
-vertexai==1.60.0

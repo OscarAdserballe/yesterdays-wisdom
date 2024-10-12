@@ -1,0 +1,78 @@
+## Advanced Writing Task Guidance
+
+### Variable: ArgumentDecomposition
+
+### Instructions:
+**Objective:** Apply Chain of Thought (CoT) reasoning to decompose the argument into logical, manageable components.
+
+### Steps:
+1. Identify the key claims, premises, and evidence supporting the main argument. 
+2. Articulate the logical flow of the argument, outlining the relationships between each component.
+3.  Decompose each supporting claim into its own sub-argument, ensuring that the overall argument remains coherent and internally consistent.
+
+### Variable: Thesis Refinement
+
+### Instructions:
+**Objective:** Apply Tree of Thoughts (ToT) to explore and refine the thesis statement.
+
+### Steps:
+1. Generate multiple potential thesis statements based on different perspectives and interpretations of the topic.
+2. Evaluate each thesis statement for its clarity, originality, and persuasiveness.
+3.  Prioritize those that offer the strongest foundation for a compelling and well-supported argument.
+
+### Variable: Evidence Selection
+
+### Instructions:
+**Objective:**  Use Step-by-Step Rationalization (STaR) to justify the selection of evidence for each argument. 
+
+### Steps:
+1. Provide clear, logical justifications for the inclusion of each piece of evidence. 
+2. Consider alternative sources of evidence and explain why the chosen evidence is the most relevant and convincing.
+3. Ensure that the evidence is credible, relevant, and directly supports the claim it's intended to support.
+
+### Variable: Structure Optimization
+
+### Instructions:
+**Objective:** Incorporate A* Search principles to optimize the structure of the writing. 
+
+### Steps:
+1.  Experiment with different organizational structures, such as chronological, thematic, or compare-and-contrast.
+2. Select the structure that best enhances the flow of the argument, ensures clarity, and maximizes the impact of the evidence.
+
+### Variable: Style Refinement
+
+### Instructions:
+**Objective:** Leverage Tree of Thoughts (ToT) to explore and evaluate different writing styles.
+
+### Steps:
+1. Explore various writing styles, including formal, informal, persuasive, analytical, etc. 
+2. Evaluate each style for its suitability to the audience, purpose, and tone of the piece. 
+3. Select the style that best aligns with the overall goals of the writing.
+
+### Variable: Sentence Level Refinement 
+
+### Instructions:
+**Objective:** Simulate adaptive learning in writing by applying Q-Learning principles. 
+
+### Steps:
+1.  Reflect on sentence-level choices (word choice, syntax, etc.) throughout the writing process, as if learning from each decision.
+2. Prioritize choices that contribute to clarity, conciseness, and the overall effectiveness of the argument.
+
+### Variable: Continuous Monitoring
+
+### Instructions:
+**Objective:** Engage in Process Monitoring to continuously refine the writing process. 
+
+### Steps:
+1. Periodically assess the progress of the writing task, reviewing the draft for coherence, clarity, and logical flow.
+2. Identify any areas that may require further clarification or revision, ensuring that the overall argument is strong and compelling. 
+3. Revise and refine the writing, making adjustments to maintain the highest level of quality throughout the process.
+
+### Final Instruction: 
+
+**Objective:** Integrate all advanced reasoning techniques into your writing process.
+
+**Goal:** Deliver the most logical, clear, and persuasive writing possible by fully adhering to these structured instructions. 
+
+**Context:** Make sure to consider the following points specific to my writing process here:
+* I will be writing academic essays, research papers, or scholarly articles. 
