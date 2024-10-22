@@ -1,4 +1,4 @@
-from objects.node import (
+from database.node import (
     Node,
     NODE_PROPERTIES
 )

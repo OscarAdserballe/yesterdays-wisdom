@@ -2,7 +2,7 @@ from typing import List
 from typing import Optional, List
 from dataclasses import dataclass
 from datetime import datetime
-
+import typing_extensions
 
 @dataclass
 class NodeProperty:
@@ -13,7 +13,8 @@ class NodeProperty:
                  datatype: str,
                  description: str,
                  restricted_to: Optional[List[str]] = None,
-                 mode: str = "NULLABLE"
+                 mode: str = "NULLABLE",
+                 llm_task: bool = False
                  ):
         self.name = name
         self.datatype = datatype
@@ -21,7 +22,7 @@ class NodeProperty:
         self.restricted_to = restricted_to
         self.mode = mode
         # whether it's a task for the LLM to complete.
-        self.llm_task = False
+        self.llm_task = llm_task
         NodeProperty._instances.append(self)
     
     @classmethod
@@ -44,6 +45,16 @@ author = NodeProperty(
     datatype="List[str]",
     description="The author(s) of the content",
     llm_task=True
+)
+content = NodeProperty(
+    name="content",
+    datatype="str",
+    description="The underlying content of the node",
+)
+file_size = NodeProperty(
+    name="file_size",
+    datatype="float",
+    description="Size of the node file in KB",
 )
 content_creation_date = NodeProperty(
     name="content_creation_date",
@@ -178,7 +189,12 @@ class Node:
             string += f"{property.name}={getattr(self, property.name)}\n"
         string += ")"
         return string
-    
 
+# Define the GeminiNodeRepresentation TypedDict
+class GeminiNodeRepresentation(typing_extensions.TypedDict):
+    pass
+
+for property in NODE_PROPERTIES:
+    setattr(GeminiNodeRepresentation, property.name, property.datatype)
 
 

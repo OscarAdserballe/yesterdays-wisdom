@@ -3,7 +3,7 @@ import json
 from typing import List, Any, Dict
 import numpy as np
 from datetime import datetime
-from objects.node import NODE_PROPERTIES
+from database.node import NODE_PROPERTIES
 import os
 
 class NodeStorage:
@@ -13,15 +13,12 @@ class NodeStorage:
         self.db_manager = SQLiteManager(db_path)
 
     def save_node(self, node_data: Dict[str, Any]) -> str:
-        # Generate a unique ID for the node
         node_id = self._generate_unique_id()
         
-        # Save raw data to file
         file_path = os.path.join(self.raw_data_dir, f"{node_id}.json")
         with open(file_path, 'w') as f:
             json.dump(node_data, f)
         
-        # Insert into SQLite database
         db_data = self._prepare_db_data(node_data)
         db_data['id'] = node_id
         self.db_manager.insert_node(db_data)

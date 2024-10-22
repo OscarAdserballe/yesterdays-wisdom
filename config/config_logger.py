@@ -6,7 +6,7 @@ from colorama import Fore, Style, init
 
 init(autoreset=True)
 
-ENV = 'development' 
+ENV = os.getenv('APP_ENV', 'development')
 
 LOG_CONFIG = {
     'development': {
@@ -50,6 +50,7 @@ def setup_logging():
     logger = logging.getLogger('streamlit-app')
     logger.setLevel(config['log_level'])
     
+    # Remove any existing handlers
     for handler in logger.handlers[:]:
         logger.removeHandler(handler)
 
@@ -59,7 +60,9 @@ def setup_logging():
         console_handler.setFormatter(colored_formatter)
         logger.addHandler(console_handler)
     
+    # No propagation to avoid duplicate logs
     logger.propagate = False
 
     return logger
 
+logger = setup_logging()
