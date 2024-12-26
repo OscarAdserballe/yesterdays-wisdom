@@ -47,7 +47,7 @@ class ColoredFormatter(logging.Formatter):
 def setup_logging():
     config = LOG_CONFIG.get(ENV, LOG_CONFIG['development'])
     
-    logger = logging.getLogger('streamlit-app')
+    logger = logging.getLogger('yesterdays-wisdom')
     logger.setLevel(config['log_level'])
     
     # Remove any existing handlers

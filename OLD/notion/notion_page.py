@@ -30,7 +30,6 @@ class NotionPage:
 
     def __repr__(self):
         return f"Page(id={self.id}) (title={self.title}) (type={self.type})"
-
     
     def fetch_text(self):
         url = f"https://api.notion.com/v1/blocks/{self.id}/children?page_size=100"

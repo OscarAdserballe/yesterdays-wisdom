@@ -1,9 +1,7 @@
-from transcribe_notes.config_transcription import LLM_MODEL, NOTES_FOLDER, TRANSCRIPTION_PROMPT, IMAGE_EXAMPLES
+from transcribe_notes.config_transcription import TRANSCRIPTION_PROMPT, IMAGE_EXAMPLES
 from transcribe_notes.config_categorization import CATEGORIZE_PROMPT
-from utils.llm import LLM
 from transcribe_notes.get_notes import create_notes_pageects 
 from utils.objects import Class, Note, Topic
-
 
 import PIL.Image
 import random
@@ -12,29 +10,7 @@ import subprocess
 # General flow: Images in class-folders
 # -> define class as selection of topics rather than pages (get_topics)
 # -> transcribe set of topics (transcribe_topic)
-
-def init_test_class():
-    classes = create_notes_pageects(NOTES_FOLDER)
-    
-    # Placing in array, so we can loop through like it were the entire thing.
-    subset = [random.choice(classes)]
-
-    return subset
-
-def open_image_in_viewer(image_path):
-    try:
-        # This opens the image in the default image viewer
-        subprocess.run(['open', image_path], check=True)
-    except Exception as e:
-        print(f"Failed to open image: {e}")
-
-def open_image_in_vscode(image_path):
-    try:
-        # This opens the image in VS Code
-        subprocess.run(['code', image_path], check=True)
-    except Exception as e:
-        print(f"Failed to open image in VS Code: {e}")
-
+     
 def get_topics(some_class: Class):
     flash = LLM(
         model_name=LLM_MODEL,
@@ -56,9 +32,9 @@ def get_topics(some_class: Class):
     for topic in output:
         class_topics.append(
             Topic(
-                    topic_name = topic.get("topic"),
-                    pages = topic.get("pages"),
-                    description = topic.get("description")
+                topic_name = topic.get("topic"),
+                pages = topic.get("pages"),
+                description = topic.get("description")
             )
         )
 
@@ -77,7 +53,6 @@ def transcribe_topic(topic: Topic):
     for i, page in topic.pages:
         img = PIL.Image.open(page.path)
         topic_images.append(img)
-        open_image_in_vscode(page.path)
 
         print(page.path)
         print(f"Transcribing {page.file_name}...")

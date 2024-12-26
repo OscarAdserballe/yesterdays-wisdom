@@ -1,7 +1,5 @@
 import PIL.Image
 
-NOTES_FOLDER = 'Notes' 
-
 EXAMPLES = [
     {
         "title": "Notes on Lewis Namier",
@@ -65,7 +63,6 @@ Guidelines:
     MAKE SURE TO ONLY TRANSCRIBE THE NEW SET OF PAGES.
     
     Examples:
-
 """
 
 IMAGE_EXAMPLES = []

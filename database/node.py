@@ -1,200 +1,47 @@
-from typing import List
-from typing import Optional, List
-from dataclasses import dataclass
 from datetime import datetime
-import typing_extensions
+import numpy as np
 
-@dataclass
-class NodeProperty:
-    _instances = []
+from pydantic import BaseModel, Field
+from datetime import datetime
+from typing import List
 
-    def __init__(self,
-                 name: str,
-                 datatype: str,
-                 description: str,
-                 restricted_to: Optional[List[str]] = None,
-                 mode: str = "NULLABLE",
-                 llm_task: bool = False
-                 ):
-        self.name = name
-        self.datatype = datatype
-        self.description = description
-        self.restricted_to = restricted_to
-        self.mode = mode
-        # whether it's a task for the LLM to complete.
-        self.llm_task = llm_task
-        NodeProperty._instances.append(self)
-    
-    @classmethod
-    def get_instances(cls):
-        return cls._instances
+class FileNode(BaseModel):
+    """Properties extracted directly from the file system and file content"""
+    primary_id: str = Field(description="Hash based on first and last 1024 characters of file uniquely identifying node.\
+    Ontology of node is thus its content rather than anything reliant on metadata. Note issue with not registering changes in the middle")
+    content: str = Field(description="The underlying content of the node")
+    file_size: float = Field(description="Size of the node file in KB")
+    file_creation_time: datetime = Field(description="Date the node was created")
+    file_modification_time: datetime = Field(description="Date the node was last modified")
+    filetype: str = Field(description="File type of the content")
+    location: str = Field(description="Location of the node (e.g., Notion, Local Files, OneDrive)")
+    path: str = Field(description="Path to the node file")
+ 
+class LLMNode(BaseModel):
+    """Properties derived from LLM analysis"""
+    label: str = Field(description="The type of content contained in the node")
+    author: List[str] = Field(description="The author(s) of the content")
+    research_question: str = Field(description="Research question addressed by the node content")
+    main_argument: str = Field(description="Main argument of the node content")
+    summary: str = Field(description="Summary of the node content")
+    tags: List[str] = Field(description="Tags associated with the node")
+    themes: List[str] = Field(description="Themes related to the node's content")
+    keywords: List[str] = Field(description="Keywords related to the node's content")
+    quotes: List[str] = Field(description="Notable quotes from the node. List only a couple based on the length of the text. For example, a short text should only have 2-3 while longer papers should be upwards of 10")
+    content_creation_date: datetime = Field(description="When the node file was from")
+    entities_persons: List[str] = Field(description="People mentioned in the node")
+    entities_places: List[str] = Field(description="Places mentioned in the node")
+    entities_organizations: List[str] = Field(description="Organizations mentioned in the node")
+    entities_references: List[str] = Field(description="References mentioned in the node")
 
-# Define NodeProperties instances
-label = NodeProperty(
-    name="label",
-    datatype="str",
-    description="The type of content contained in the node",
-    restricted_to=[
-        "Personal Note", "Textbook", "Textbook Chapter",
-        "Academic Paper", "Other"
-    ],
-    llm_task=True
-)
-author = NodeProperty(
-    name="author",
-    datatype="List[str]",
-    description="The author(s) of the content",
-    llm_task=True
-)
-content = NodeProperty(
-    name="content",
-    datatype="str",
-    description="The underlying content of the node",
-)
-file_size = NodeProperty(
-    name="file_size",
-    datatype="float",
-    description="Size of the node file in KB",
-)
-content_creation_date = NodeProperty(
-    name="content_creation_date",
-    datatype=datetime,
-    description="When hte node file was from",
-)
-file_creation_date = NodeProperty(
-    name="file_creation_date",
-    datatype=datetime,
-    description="Date the node was created",
-    mode="REQUIRED"
-)
-modification_date = NodeProperty(
-    name="modification_date",
-    datatype=datetime,
-    description="Date the node was last modified",
-    mode="REQUIRED"
-)
-filetype = NodeProperty(
-    name="filetype",
-    datatype="str",
-    description="File type of the content",
-    mode="REQUIRED"
-)
-location = NodeProperty(
-    name="location",
-    datatype="str",
-    description="Location of the node (e.g., Notion, Local Files, OneDrive)",
-    mode="REQUIRED"
-)
-path = NodeProperty(
-    name="path",
-    datatype="str",
-    description="Path to the node file",
-    mode="REQUIRED"
-)
-research_question = NodeProperty(
-    name="research_question",
-    datatype="str",
-    description="Research question addressed by the node content",
-    llm_task=True
-)
-main_argument = NodeProperty(
-    name="main_argument",
-    datatype="str",
-    description="Main argument of the node content",
-    llm_task=True
-)
-summary = NodeProperty(
-    name="summary",
-    datatype="str",
-    description="Summary of the node content",
-    llm_task=True
-)
-tags = NodeProperty(
-    name="tags",
-    datatype="List[str]",
-    description="Tags associated with the node",
-    llm_task=True
-)
-themes = NodeProperty(
-    name="themes",
-    datatype="List[str]",
-    description="Themes related to the node",
-    llm_task=True
-)
-keywords = NodeProperty(
-    name="keywords",
-    datatype="List[str]",
-    description="Keywords related to the node",
-    llm_task=True
-)
-quotes = NodeProperty(
-    name="quotes",
-    datatype="List[str]",
-    description="Quotes from the node",
-    llm_task=True
-)
-entities_persons = NodeProperty(
-    name="entities_persons",
-    datatype="List[str]",
-    description="People mentioned in the node",
-    llm_task=True
-)
-entities_places = NodeProperty(
-    name="entities_places",
-    datatype="List[str]",
-    description="Places mentioned in the node",
-    llm_task=True
-)
-entities_organizations = NodeProperty(
-    name="entities_organizations",
-    datatype="List[str]",
-    description="Organizations mentioned in the node",
-    llm_task=True
-)
-entities_references = NodeProperty(
-    name="entities_references",
-    datatype="List[str]",
-    description="References mentioned in the node",
-    llm_task=True
-)
-embedding = NodeProperty(
-    name="embedding",
-    datatype="List[float]",
-    description="Embedding of the Node object",
-)
+class EmbeddingNode(BaseModel):
+    """Node's content in embedding space"""
+    content_embedding: list[float] = Field(description="Content of node in embedding space")
 
-NODE_PROPERTIES = NodeProperty.get_instances()
-
-class Node:
-    def __init__(self, **kwargs):
-        # Unpack NODE_PROPERTIES directly into the Node instance
-        for property in NODE_PROPERTIES:
-            if property.name in kwargs:
-                
-                # validating data if restricted_to is not None
-                if property.restricted_to is not None:
-                    if kwargs[property.name] in property.restricted_to:
-                        setattr(self, property.name, kwargs[property.name])
-                    else:
-                        setattr(self, property.name, None)
-                
-                else:  
-                    setattr(self, property.name, kwargs[property.name])
-            else:
-                setattr(self, property.name, None)  # Set to None for properties not provided
-    
-    def __repr__(self):
-        string = "Node(\n"
-        for property in NODE_PROPERTIES:
-            string += f"{property.name}={getattr(self, property.name)}\n"
-        string += ")"
-        return string
-
-# Define the GeminiNodeRepresentation TypedDict
-class GeminiNodeRepresentation(typing_extensions.TypedDict):
-    pass
-
-for property in NODE_PROPERTIES:
-    setattr(GeminiNodeRepresentation, property.name, property.datatype)
+class Node(BaseModel):
+    """Combined node with both file and LLM properties"""
+    file: FileNode
+    llm: LLMNode 
+    embedding: EmbeddingNode 
 
 

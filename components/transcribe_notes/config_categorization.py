@@ -1,3 +1,7 @@
+from pydantic import BaseModel, Field
+
+class Class(BaseModel):
+    notes: 
 CATEGORIZE_PROMPT = """
 You will be categorizing a number of notes into appropriate content.
 Currently, the problem is that the notes are scattered after an upload process, and you need to identify the pages that belong together based on the topics they revolve around.
