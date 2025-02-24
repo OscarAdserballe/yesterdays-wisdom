@@ -1,6 +1,5 @@
 from config.settings import LLM_MODEL, MAX_TOKEN_LIMIT
 from pydantic_ai import Agent
-from pydantic import BaseModel, Field
 
 from database.node import LLMNode, FileNode
 

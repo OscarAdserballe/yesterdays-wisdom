@@ -6,7 +6,7 @@ from colorama import Fore, Style, init
 
 init(autoreset=True)
 
-ENV = os.getenv('APP_ENV', 'development')
+ENV = os.getenv('APP_ENV', 'production')
 
 LOG_CONFIG = {
     'development': {
@@ -17,7 +17,7 @@ LOG_CONFIG = {
     },
     'production': {
         'log_level': logging.INFO,
-        'log_format': '%(name)s - %(levelname)s - %(message)s',
+        'log_format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         'log_to_console': True,
         'use_colors': False,
     }
